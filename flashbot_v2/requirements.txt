@@ -1,0 +1,8 @@
+python-telegram-bot>=21
+pydantic>=2
+rich>=13
+streamlit>=1.36
+python-dotenv>=1
+requests>=2
+web3>=6
+solana>=0.33

@@ -1,0 +1,5 @@
+2025-08-16 22:57:37,991 | INFO     | root | Logger ready
+2025-08-16 22:57:38,198 | INFO     | telegram.ext.Application | Application started
+2025-08-16 22:57:38,199 | INFO     | root | Telegram bot started – send /start
+2025-08-16 23:01:12,157 | INFO     | telegram.ext.Application | Application is stopping. This might take a moment.
+2025-08-16 23:01:12,158 | INFO     | telegram.ext.Application | Application.stop() complete

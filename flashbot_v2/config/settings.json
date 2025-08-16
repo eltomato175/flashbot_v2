@@ -1,0 +1,40 @@
+{
+  "TELEGRAM_TOKEN": "8131336674:AAEKWi04lzO_oNxGgXsl3RAaRY2_W1nyRW8",
+  "ADMIN_CHAT_ID": 6227121432,
+  "RPC": {
+    "ethereum": "https://eth-mainnet.example",
+    "bsc": "https://bsc-dataseed.example",
+    "polygon": "https://polygon-rpc.example",
+    "solana": "https://mainnet.helius-rpc.com/?api-key=634f3a6d-22b4-4f08-8aba-c8915cbfee79",
+    "bitcoin_watch": "https://mempool.space/api"
+  },
+  "WALLETS": [
+    {
+      "label": "main_sol",
+      "chain": "solana",
+      "address": "DRkFBLWwwHqWtND2KGfMceth4XD4Ynw6icUFBfjGRGyr",
+      "private_key_env": "3geQfS3pcrWhBW5oTACr58NUEyxoAuUfb8JDJ8AEsaiKt9AjeqnzjQEQDEPffsrrapxFWJLRt8ooCfu75yWSytSg"
+    }
+  ],
+  "STRATEGIES": {
+    "arbitrage_intra_dex": true,
+    "arbitrage_inter_dex": true,
+    "cross_chain_arbitrage": false,
+    "multi_hop_arbitrage": true,
+    "dex_latency_exploit": false,
+    "price_leakage_detection": true,
+    "sandwich_prevention": true,
+    "whale_tracking": true,
+    "liquidity_sniping": false,
+    "mempool_arbitrage": false,
+    "rafales": true
+  },
+  "RAFALeS": {
+    "parallel": 3,
+    "repeat": true,
+    "modify_each": true,
+    "max_cycles": 100
+  },
+  "LOG_LEVEL": "INFO",
+  "GUI_PORT": 8501
+}
