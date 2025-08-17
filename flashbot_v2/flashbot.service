@@ -1,0 +1,14 @@
+[Unit]
+Description=FlashBot v2
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/USERNAME/flashbot_v2
+ExecStart=/home/USERNAME/flashbot_v2/.venv/bin/python main.py
+Restart=on-failure
+RestartSec=5
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=multi-user.target

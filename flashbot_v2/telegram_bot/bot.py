@@ -1,39 +1,38 @@
-from __future__ import annotations
-import logging, asyncio
-from typing import List
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
-log = logging.getLogger("TelegramBot")
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
-def build_keyboard():
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🪙 Vérifier wallets", callback_data="check_wallets")],
-        [InlineKeyboardButton("⚡ Exécuter meilleure stratégie", callback_data="run_best")],
-        [InlineKeyboardButton("🎯 Rafales", callback_data="run_rafales")],
-        [InlineKeyboardButton("ℹ️ Infos bot", callback_data="bot_info")]
-    ])
+class FlashBotTelegram:
+    def __init__(self, token, combined_strategy):
+        self.token = token
+        self.combined_strategy = combined_strategy
+        self.app = Application.builder().token(token).build()
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🚀 FlashBot en ligne. Choisissez :", reply_markup=build_keyboard())
+        self.app.add_handler(CommandHandler("start", self.start))
+        self.app.add_handler(CallbackQueryHandler(self.handle_buttons))
 
-async def callbacks(update: Update, context: ContextTypes.DEFAULT_TYPE, *, api):
-    query = update.callback_query
-    await query.answer()
-    data = query.data
-    if data == "check_wallets":
-        msg = api.check_wallets_overview()
-        await query.edit_message_text(msg)
-    elif data == "run_best":
-        res = api.run_best_strategy()
-        await query.edit_message_text(f"✅ {res}")
-    elif data == "run_rafales":
-        res = api.run_rafales()
-        await query.edit_message_text(f"✅ {res}")
-    elif data == "bot_info":
-        await query.edit_message_text(api.bot_info())
+    async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        keyboard = [
+            [InlineKeyboardButton("Exécuter stratégies", callback_data="run")],
+            [InlineKeyboardButton("Afficher config", callback_data="config")],
+            [InlineKeyboardButton("Stop", callback_data="stop")],
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await update.message.reply_text("Bienvenue sur FlashBot 🚀", reply_markup=reply_markup)
 
-def build_app(token: str, api) -> "Application":
-    app = ApplicationBuilder().token(token).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CallbackQueryHandler(lambda u, c: callbacks(u, c, api=api)))
-    return app
+    async def handle_buttons(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        query = update.callback_query
+        await query.answer()
+
+        if query.data == "run":
+            results = self.combined_strategy.execute({"prices": [100, 102, 101, 105]})
+            await query.edit_message_text(text=f"Résultats: {results}")
+
+        elif query.data == "config":
+            await query.edit_message_text(text="Config: min_profit, rafale, flashloan…")
+
+        elif query.data == "stop":
+            await query.edit_message_text(text="Bot stoppé.")
+            await self.app.shutdown()
+
+    def run(self):
+        self.app.run_polling()
