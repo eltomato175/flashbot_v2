@@ -35,6 +35,11 @@
     "modify_each": true,
     "max_cycles": 100
   },
+    "failsafe": {
+    "max_loss": -50.0,
+    "max_volatility": 10.0
+  },
+  "min_profit": 1.5,
   "LOG_LEVEL": "INFO",
   "GUI_PORT": 8501
 }
